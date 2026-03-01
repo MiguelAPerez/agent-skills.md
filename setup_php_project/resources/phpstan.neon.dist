@@ -1,0 +1,19 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app
+        - bin
+        - database
+        - config
+        - tests
+    # The level 9 is the highest level
+    level: 5
+
+    # ignoreErrors:
+    #     - identifier: missingType.iterableValue
+
+    excludePaths:
+        - **/vendor/**
