@@ -19,7 +19,11 @@ When you are tasked with understanding a new project, follow these steps to orie
 
 ## 3. Propose Documentation
 
-- If no `README.md` exists, **recommend creating one**.
+- If no `README.md` exists, **recommend creating one**. You can use the templates located in `resources/templates/`:
+  - `BASIC_README.md`: For small projects or prototypes.
+  - `STANDARD_README.md`: For comprehensive project documentation.
+  - `API_README.md`: For documenting API-centric services.
+  - `PULL_REQUEST_TEMPLATE.md`: For standardizing pull request descriptions.
 - If there is no dedicated `docs/` folder, **proactively suggest setting one up** to keep the project organized.
 
 ## 4. Suggest Documentation Updates
