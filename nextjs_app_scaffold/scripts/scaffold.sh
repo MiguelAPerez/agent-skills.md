@@ -13,9 +13,35 @@ npx create-next-app@latest ./ \
   --use-npm --no-install \
   --react-compiler
 
-# Create API directory for backend actions
-mkdir -p src/app/api
-echo "// Example API Route" > src/app/api/route.ts
+# Create docs folder
+mkdir -p docs
+echo "# Project Documentation" > docs/README.md
+
+# Create API directory for backend actions (Example Ping Route)
+mkdir -p src/app/api/ping
+cat <<EOF > src/app/api/ping/route.ts
+import { NextResponse } from 'next/server';
+
+interface PingRequestBody {
+  name: string;
+}
+
+export async function GET() {
+  return NextResponse.json({ message: 'pong' });
+}
+
+export async function POST(request: Request) {
+  try {
+    const body: PingRequestBody = await request.json();
+    return NextResponse.json({ 
+      message: 'pong',
+      received: body.name 
+    });
+  } catch (error) {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
+}
+EOF
 
 echo "Project initialized with docs and api folders."
 
