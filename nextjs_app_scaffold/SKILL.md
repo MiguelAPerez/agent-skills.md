@@ -16,8 +16,7 @@ When asked to create a new Next.js app, follow these steps:
 Use the provided helper script to initialize a new Next.js project with the correct flags and a `docs` folder:
 
 ```bash
-/Users/miguelperez/development/Skills/nextjs_app_scaffold/scripts/scaffold.sh <project-name>
-cd <project-name>
+/Users/miguelperez/development/Skills/nextjs_app_scaffold/scripts/scaffold.sh
 npm install
 npm run dev
 ```
