@@ -77,12 +77,12 @@ mcp__gitea__issue_write(
 ## Resolving review threads
 
 The Gitea MCP doesn't expose a thread-resolve method (`pull_request_review_write`
-only does create/submit/delete/dismiss). Use `openstash curl` instead:
+only does create/submit/delete/dismiss). Use `scripts/gitea-curl.sh`, which reads
+credentials from the Claude Desktop or Cursor MCP config and delegates to
+`openstash curl`:
 
 ```bash
-openstash curl gitea --operation repoResolvePullReviewComment \
-  --host https://<gitea-host>/api/v1 \
-  --token <token> \
+scripts/gitea-curl.sh --operation repoResolvePullReviewComment \
   --param owner=<owner> --param repo=<repo> --param id=<comment_id>
 ```
 
