@@ -77,14 +77,16 @@ mcp__gitea__issue_write(
 ## Resolving review threads
 
 The Gitea MCP doesn't expose a thread-resolve method (`pull_request_review_write`
-only does create/submit/delete/dismiss). Resolve threads with a direct REST call:
+only does create/submit/delete/dismiss). Use `openstash curl` instead:
 
+```bash
+openstash curl gitea --operation repoResolvePullReviewComment \
+  --host https://<gitea-host>/api/v1 \
+  --token <token> \
+  --param owner=<owner> --param repo=<repo> --param id=<comment_id>
 ```
-POST {host}/api/v1/repos/{owner}/{repo}/pulls/comments/{comment_id}/resolve
-Authorization: token <gitea-token>
-```
 
-**Quirk:** the path `/pulls/{index}/comments/{id}/resolve` returns **405** — the
-correct path omits the PR index entirely and returns **204** with an empty body.
-
-If no token is available, leave the threads open and say so.
+**Quirk:** the correct API path is `/repos/{owner}/{repo}/pulls/comments/{id}/resolve`
+— no PR index in the path. The path with the index returns **405**; the correct
+one returns **204** with an empty body. `openstash curl` resolves this via the
+spec so the right path is used automatically.
