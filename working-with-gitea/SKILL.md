@@ -9,6 +9,16 @@ description: >-
 
 # Working with Gitea
 
+## Skill location
+
+Scripts live next to this `SKILL.md`, not in the chat workspace. Resolve once:
+
+```bash
+GITEA_CURL="$(cd "${HOME}/.claude/skills/working-with-gitea" && pwd -P)/scripts/gitea-curl.sh"
+```
+
+Use `"${GITEA_CURL}"` below — never `scripts/...` from the workspace root.
+
 ## Environment
 
 All reads and writes go through the **Gitea MCP** (`mcp__gitea__*` tools). `gh`
@@ -77,12 +87,11 @@ mcp__gitea__issue_write(
 ## Resolving review threads
 
 The Gitea MCP doesn't expose a thread-resolve method (`pull_request_review_write`
-only does create/submit/delete/dismiss). Use `scripts/gitea-curl.sh`, which reads
-credentials from the Claude Desktop or Cursor MCP config and delegates to
-`openstash curl`:
+only does create/submit/delete/dismiss). Use `"${GITEA_CURL}"` (see **Skill location**), which reads credentials from the Claude Desktop or Cursor
+MCP config and delegates to `openstash curl`:
 
 ```bash
-scripts/gitea-curl.sh --operation repoResolvePullReviewComment \
+"${GITEA_CURL}" --operation repoResolvePullReviewComment \
   --param owner=<owner> --param repo=<repo> --param id=<comment_id>
 ```
 

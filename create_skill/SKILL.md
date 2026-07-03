@@ -24,6 +24,10 @@ Create a `SKILL.md` file inside the new directory. This file is mandatory.
 If the skill requires extra assets, create subdirectories within the skill's folder:
 
 - `scripts/`: For any bash or python scripts the agent might need to run.
+  Scripts live next to `SKILL.md`, not in the chat workspace. In the skill
+  instructions, show how to resolve the absolute path (e.g. via
+  `$HOME/.claude/skills/<skill-name>/` or the `fullPath` from the skill
+  listing). See `working-with-gitea` for an example.
 - `examples/`: For reference implementations or usage patterns.
 - `resources/`: For templates, config snippets, or other static files.
 
