@@ -8,3 +8,17 @@ This is a collection of skills for an agent to use in its daily tasks. Its gener
   resolve the absolute path (see `working-with-gitea` for the pattern).
 - `examples/`: Any examples of how to use the skill.
 - `resources/`: Any resources the skill might need to run.
+
+## Cross-repo skills
+
+Some skills are shared across repos:
+
+| Skill | Repo | Purpose |
+|-------|------|---------|
+| `persistent-agent-memory` | this repo | File-based memory for [sub-agents](https://github.com/MiguelAPerez/sub-agents.md) |
+
+## Related repos
+
+| Repo | Purpose |
+|------|---------|
+| [sub-agents.md](https://github.com/MiguelAPerez/sub-agents.md) | Harness-agnostic sub-agent definitions (references skills from this repo) |
