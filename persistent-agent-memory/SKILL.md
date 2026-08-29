@@ -10,7 +10,8 @@ description: >-
 # Persistent Agent Memory
 
 Cross-session memory for agents. Harness-agnostic: the files live in your
-**sub-agents** checkout, not inside a vendor-specific config dir.
+[**sub-agents**](https://github.com/MiguelAPerez/sub-agents.md) checkout, not
+inside a vendor-specific config dir.
 
 ## Where memory lives
 

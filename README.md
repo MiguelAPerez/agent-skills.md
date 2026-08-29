@@ -15,4 +15,10 @@ Some skills are shared across repos:
 
 | Skill | Repo | Purpose |
 |-------|------|---------|
-| `persistent-agent-memory` | this repo | File-based memory for sub-agents (see also `sub-agents.md`) |
+| `persistent-agent-memory` | this repo | File-based memory for [sub-agents](https://github.com/MiguelAPerez/sub-agents.md) |
+
+## Related repos
+
+| Repo | Purpose |
+|------|---------|
+| [sub-agents.md](https://github.com/MiguelAPerez/sub-agents.md) | Harness-agnostic sub-agent definitions (references skills from this repo) |
