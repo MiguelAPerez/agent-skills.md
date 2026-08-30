@@ -16,6 +16,7 @@ Some skills are shared across repos:
 | Skill | Repo | Purpose |
 |-------|------|---------|
 | `persistent-agent-memory` | this repo | File-based memory for [sub-agents](https://github.com/MiguelAPerez/sub-agents.md) |
+| `verify-on-simulator` | this repo | Manual UI verification on Apple simulators — delegate to [simulator-verifier](https://github.com/MiguelAPerez/sub-agents.md) subagent |
 
 ## Related repos
 
