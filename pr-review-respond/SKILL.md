@@ -4,7 +4,7 @@ description: >-
   Triage the review feedback on a pull request — fetch every review comment,
   judge which points are valid vs. not (against the repo's own conventions and
   platform/scope constraints), pause for the user to confirm, then implement the
-  agreed fixes and post a summary comment back to the PR. Use this whenever the
+  agreed fixes, reply on each review thread, and resolve fixed threads. Use this whenever the
   user wants to evaluate / triage / address / respond to PR review comments, "see
   what the bot said", decide which review feedback to act on, or reply to a
   reviewer — even if they don't say the word "review".
@@ -21,7 +21,7 @@ sign-off, then close the loop on the PR.**
 
 The guiding principle: **the user decides what's valid.** You do the legwork —
 gather the comments, form a reasoned recommendation on each — but you stop and
-wait before changing code, and you never post a reply until the fixes are in.
+wait before changing code, and you never reply on the PR until the fixes are in.
 
 Before starting, identify the project's remote platform from the git remote URL
 and confirm you have the right tooling available. Check the platform-specific docs
@@ -93,10 +93,35 @@ uses (check `CLAUDE.md` for the build command). Commit and push to the existing
 PR branch. Match the repo's commit-message convention, including any required
 trailer.
 
-### 5. Post the summary back to the PR
+### 5. Reply on each thread (default)
 
-Post a comment on the PR using the platform's API. Structure it so a reader sees
-the decisions at a glance (drop empty sections):
+**Default: reply in-thread — not one PR-wide summary.** After pushing fixes,
+post a reply on **every review thread you triaged** — one response per comment
+id from step 1. Match the bucket from your triage:
+
+| Bucket | Reply should say |
+|--------|------------------|
+| **Fixed** | What changed, why, commit `<sha>`, and that build/tests passed |
+| **Won't fix** | Why it doesn't apply here — cite the repo constraint or precedent |
+| **Confirmed intentional** | Yes, intentional — brief why |
+
+Use the platform's **in-thread reply** API (not a top-level PR comment). Check
+the platform-specific docs for the exact call — e.g. on Gitea,
+`pull_request_review_write(method: "reply_comment", comment_id, body, ...)`.
+
+For **top-level discussion comments** (not tied to a review thread), reply on
+that comment thread if the platform supports it; otherwise `@`-mention the
+reviewer in a direct reply.
+
+Keep each reply factual and brief. **Do not** also post a consolidated
+"Review follow-up" summary on the PR — per-thread replies are the closed loop
+reviewers expect.
+
+#### Fallback: single summary comment (user opt-in only)
+
+Only if the user **explicitly** asks for one comment (e.g. "just post a
+summary", "single comment is fine") — skip per-thread replies and post one
+consolidated top-level comment instead:
 
 ```markdown
 ## Review follow-up
@@ -111,12 +136,12 @@ the decisions at a glance (drop empty sections):
 - **<comment>** — yes, intentional: <why>.
 ```
 
-Keep it factual and brief — acknowledge the review, state what moved, give the
-reasoning for what didn't, and note the build/tests passed after the fix.
+If the user hasn't opted into this fallback, use per-thread replies even when
+there are many comments.
 
 ### 6. Resolve only the fixed threads
 
-After the follow-up comment is posted, mark **only** the review threads that
+After in-thread replies are posted (or the user-opt-in summary, if used), mark **only** the review threads that
 landed in the **Fixed** bucket (and that the user confirmed) as resolved. Do
 **not** resolve every open thread on the PR — especially not items classified as
 **Won't fix** or **Confirmed intentional**. Those should stay open so the
