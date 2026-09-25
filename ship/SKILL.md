@@ -2,8 +2,9 @@
 name: ship
 description: >-
   Ship a change as a pull request the safe way — branch off main, stage only the
-  relevant files, sanity-check the diff, run the repo's build/tests, and open the
-  PR via the project's remote platform. Use this whenever the user wants to "ship
+  relevant files, sanity-check the diff, run the repo's build/tests, fill out the
+  repo's PR template (if any), and open the PR via the project's remote platform.
+  Use this whenever the user wants to "ship
   it", "open a PR", "make a PR", "push this up for review", or otherwise turn
   working-tree changes into a reviewable PR — even if they don't say the word
   "ship".
@@ -62,7 +63,34 @@ xcodebuild -project MyApp.xcodeproj -scheme MyApp -configuration Debug \
   -destination 'platform=iOS Simulator,name=iPhone 17' build 2>&1 | tail -4
 ```
 
-## 4. Push and open the PR
+## 4. Compose the PR body, push, and open the PR
+
+**Find any PR template** the repo expects. On the branch you're merging into
+(usually `main`), look for:
+
+- `.github/pull_request_template.md`
+- `.github/PULL_REQUEST_TEMPLATE.md`
+- `.github/PULL_REQUEST_TEMPLATE/` (one or more `*.md` files; use the best fit
+  when the host offers multiple)
+- `.gitea/pull_request_template.md`
+- `docs/pull_request_template.md` or `PULL_REQUEST_TEMPLATE.md` at the repo root
+
+If nothing is in git, the host may still apply a **server default** template when
+the PR is created — you won't see it until after open; prefer updating the body
+immediately if the opened PR still has obvious placeholders.
+
+**Compose the PR body** before calling the create-PR API:
+
+- **When a template exists:** Start from its structure (headings, prompts,
+  checklist). Replace every placeholder with real content from this change and
+  step 3 — no `[Describe…]`, no `#[Issue Number]` unless you link a real issue,
+  no unchecked boxes that should apply after the gate you ran. Map the diff and
+  commit message into Description/Summary; map the exact build/test command and
+  result into testing sections.
+- **When no template exists:** Use a minimal body with `## Summary` and
+  `## Test plan`, derived from the diff and step 3.
+
+Derive `owner` and `repo` from the git remote (`git remote get-url origin`).
 
 Push the branch:
 
@@ -70,7 +98,5 @@ Push the branch:
 git push -u origin "$(git branch --show-current)"
 ```
 
-Then open the PR using the platform's tooling. The PR body should have a
-`## Summary` and a `## Test plan` section. Derive `owner` and `repo` from
-the git remote (`git remote get-url origin`). Report the PR number and URL
-back to the user.
+Open the PR with the composed body via the platform's tooling. Report the PR
+number and URL back to the user.
