@@ -149,7 +149,9 @@ decision stays visible on the diff.
 
 List the exact comment IDs from the **Fixed** bucket in your triage before
 resolving, and confirm them with the user. Use the platform's API to resolve
-each thread — check the platform-specific docs for the exact call and any quirks.
+each thread — check the platform-specific docs for the exact call and any quirks
+(on Gitea: `pull_request_review_write(method: "resolve_thread", comment_id, ...)` — see
+`working-with-gitea`).
 
 ## Why this shape
 

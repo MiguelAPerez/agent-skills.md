@@ -84,11 +84,44 @@ mcp__gitea__issue_write(
 )
 ```
 
-## Resolving review threads
+## Replying to and resolving review threads
 
-The Gitea MCP doesn't expose a thread-resolve method (`pull_request_review_write`
-only does create/submit/delete/dismiss). Use `"${GITEA_CURL}"` (see **Skill location**), which reads credentials from the Claude Desktop or Cursor
-MCP config and delegates to `openstash curl`:
+Both go through `mcp__gitea__pull_request_review_write`.
+
+**Reply in-thread** (not a top-level PR comment):
+
+```
+mcp__gitea__pull_request_review_write(
+  method: "reply_comment",
+  owner: <owner>,
+  repo: <repo>,
+  pull_number: <pr-number>,
+  comment_id: <comment_id>,
+  body: "..."
+)
+```
+
+**Resolve / unresolve a thread:**
+
+```
+mcp__gitea__pull_request_review_write(
+  method: "resolve_thread",   # or "unresolve_thread"
+  owner: <owner>,
+  repo: <repo>,
+  comment_id: <comment_id>
+)
+# → {"resolved": true}
+```
+
+`comment_id` must be the thread's **first** comment — the original reviewer
+comment id, not the id of a reply. `pull_number` isn't needed for
+resolve/unresolve.
+
+### Fallback: `${GITEA_CURL}`
+
+If the MCP isn't loaded or `resolve_thread` isn't available, use
+`"${GITEA_CURL}"` (see **Skill location**), which reads credentials from the
+Claude Desktop or Cursor MCP config and delegates to `openstash curl`:
 
 ```bash
 "${GITEA_CURL}" --operation repoResolvePullReviewComment \
